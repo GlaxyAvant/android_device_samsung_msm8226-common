@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014 The CyanogenMod Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the "License"); \
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -15,6 +15,8 @@
  */
 
 #define CAMERA_PARAMETERS_EXTRA_C \
+const char CameraParameters::KEY_DIS[] = "dis"; \
+const char CameraParameters::DIS_DISABLE[] = "disable"; \
 const char CameraParameters::KEY_SUPPORTED_ISO_MODES[] = "iso-values"; \
 const char CameraParameters::KEY_FACE_DETECTION[] = "face-detection"; \
 const char CameraParameters::KEY_SUPPORTED_FACE_DETECTION[] = "face-detection-values"; \
@@ -106,15 +108,17 @@ const char CameraParameters::PIXEL_FORMAT_YUV420SP_ADRENO[] = "yuv420sp-adreno";
 const char CameraParameters::PIXEL_FORMAT_RAW[] = "raw"; \
 const char CameraParameters::PIXEL_FORMAT_YV12[] = "yuv420p"; \
 const char CameraParameters::PIXEL_FORMAT_NV12[] = "nv12"; \
-int CameraParameters::getInt64(const char *key) const { return -1; }; \
-const char *CameraParameters::getPreviewFrameRateMode() const { return get(KEY_PREVIEW_FRAME_RATE_MODE); }; \
-void CameraParameters::setPreviewFrameRateMode(const char *mode) { set(KEY_PREVIEW_FRAME_RATE_MODE, mode); }; \
+int CameraParameters::getInt64(const char *key) const { return -1; \ }; \
+const char *CameraParameters::getPreviewFrameRateMode() const { return get(KEY_PREVIEW_FRAME_RATE_MODE); \ }; \
+void CameraParameters::setPreviewFrameRateMode(const char *mode) { set(KEY_PREVIEW_FRAME_RATE_MODE, mode); \ }; \
 void CameraParameters::getMeteringAreaCenter(int *x, int *y) const { }; \
 void CameraParameters::setTouchIndexAec(int x, int y) { }; \
 void CameraParameters::setTouchIndexAf(int x, int y) { }; \
-void CameraParameters::setPreviewFpsRange(int minFPS, int maxFPS) { };
+void CameraParameters::setPreviewFpsRange(int minFPS, int maxFPS) { }
 
 #define CAMERA_PARAMETERS_EXTRA_H \
+    static const char KEY_DIS[]; \
+    static const char DIS_DISABLE[]; \
     static const char KEY_SUPPORTED_ISO_MODES[]; \
     static const char KEY_FACE_DETECTION[]; \
     static const char KEY_SUPPORTED_FACE_DETECTION[]; \
@@ -196,7 +200,7 @@ void CameraParameters::setPreviewFpsRange(int minFPS, int maxFPS) { };
     static const char DENOISE_OFF[]; \
     static const char DENOISE_ON[]; \
     static const char KEY_DENOISE[]; \
-    static const char KEY_SUPPORTED_DENOISE[];\
+    static const char KEY_SUPPORTED_DENOISE[]; \
     static const char EFFECT_EMBOSS[]; \
     static const char EFFECT_SKETCH[]; \
     static const char EFFECT_NEON[]; \

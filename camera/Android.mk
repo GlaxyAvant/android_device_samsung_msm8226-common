@@ -6,12 +6,6 @@ include $(CLEAR_VARS)
 LOCAL_C_INCLUDES := \
     system/media/camera/include/system/
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/camera/
-
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../include/system/
-
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../include/camera/
-
 LOCAL_SRC_FILES := \
     CameraWrapper.cpp
 

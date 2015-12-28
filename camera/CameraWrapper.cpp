@@ -26,17 +26,14 @@
 #define LOG_TAG "CameraWrapper"
 #include <cutils/log.h>
 
-//#include <system/media/camera/include/system/camera_vendor_tags.h>
 #include <utils/threads.h>
 #include <utils/String8.h>
 #include <hardware/hardware.h>
 #include <hardware/camera.h>
 #include <camera/Camera.h>
+#include <camera/CameraParameters.h>
 #include <camera/CameraParameters2.h>
-#include "../include/camera/QCameraParameters.h"
-#include <camera/QCameraParameters.h>
 #include <camera/CameraParametersExtra.h>
-#include "../include/camera/CameraParametersExtra.h"
 
 static android::Mutex gCameraWrapperLock;
 static camera_module_t *gVendorModule = 0;
@@ -163,7 +160,7 @@ static char *camera_fixup_setparams(struct camera_device *device, const char *se
     bool isVideo = recordingHint && !strcmp(recordingHint, "true");
 
     if (isVideo) {
-//        params.set(android::CameraParameters::KEY_DIS, android::CameraParameters::DIS_DISABLE);
+        params.set(android::CameraParameters::KEY_DIS, android::CameraParameters::DIS_DISABLE);
         params.set(android::CameraParameters::KEY_ZSL, android::CameraParameters::ZSL_OFF);
     } else {
         params.set(android::CameraParameters::KEY_ZSL, android::CameraParameters::ZSL_ON);
@@ -402,37 +399,37 @@ static int camera_cancel_picture(struct camera_device *device)
     return VENDOR_CALL(device, cancel_picture);
 }
 
-//static int camera_set_parameters(struct camera_device *device, const char *params)
-//{
-//    ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
-//            (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
-//
-//    if (!device)
-//        return -EINVAL;
-//
-//    char *tmp = NULL;
-//    tmp = camera_fixup_setparams(device, params);
-//
-//    int ret = VENDOR_CALL(device, set_parameters, tmp);
-//    return ret;
-//}
+static int camera_set_parameters(struct camera_device *device, const char *params)
+{
+    ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
+            (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
 
-//static char *camera_get_parameters(struct camera_device *device)
-//{
-//    ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
-//            (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
-//
-//    if (!device)
-//        return NULL;
-//
-//    char *params = VENDOR_CALL(device, get_parameters);
-//
-//    char *tmp = camera_fixup_getparams(CAMERA_ID(device), params);
-//    VENDOR_CALL(device, put_parameters, params);
-//    params = tmp;
-//
-//    return params;
-//}
+    if (!device)
+        return -EINVAL;
+
+    char *tmp = NULL;
+    tmp = camera_fixup_setparams(device, params);
+
+    int ret = VENDOR_CALL(device, set_parameters, tmp);
+    return ret;
+}
+
+static char *camera_get_parameters(struct camera_device *device)
+{
+    ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
+            (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
+
+    if (!device)
+        return NULL;
+
+    char *params = VENDOR_CALL(device, get_parameters);
+
+    char *tmp = camera_fixup_getparams(CAMERA_ID(device), params);
+    VENDOR_CALL(device, put_parameters, params);
+    params = tmp;
+
+    return params;
+}
 
 static void camera_put_parameters(struct camera_device *device, char *params)
 {
@@ -608,8 +605,8 @@ static int camera_device_open(const hw_module_t *module, const char *name,
         camera_ops->cancel_auto_focus = camera_cancel_auto_focus;
         camera_ops->take_picture = camera_take_picture;
         camera_ops->cancel_picture = camera_cancel_picture;
-//      camera_ops->set_parameters = camera_set_parameters;
-//      camera_ops->get_parameters = camera_get_parameters;
+        camera_ops->set_parameters = camera_set_parameters;
+        camera_ops->get_parameters = camera_get_parameters;
         camera_ops->put_parameters = camera_put_parameters;
         camera_ops->send_command = camera_send_command;
         camera_ops->release = camera_release;
