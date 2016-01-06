@@ -23,6 +23,12 @@ TARGET_SPECIFIC_HEADER_PATH := device/samsung/msm8226-common/include
 TARGET_CPU_MEMCPY_BASE_OPT_DISABLE := true
 TARGET_CPU_VARIANT := krait
 
+# Audio
+AUDIO_FEATURE_DISABLED_ANC_HEADSET := true
+AUDIO_FEATURE_DISABLED_MULTI_VOICE_SESSIONS := true
+TARGET_QCOM_AUDIO_VARIANT := caf
+BOARD_USES_ALSA_AUDIO := true
+
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
@@ -98,10 +104,10 @@ TARGET_POWERHAL_VARIANT := qcom
 -include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += device/samsung/msm8226-common/sepolicy
 
-BOARD_SEPOLICY_UNION += \
-       hostapd.te \
-       platform_app.te \
-       kernel.te
+#BOARD_SEPOLICY_UNION += \
+#       hostapd.te \
+#       platform_app.te \
+#       kernel.te
 
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true

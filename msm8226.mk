@@ -40,6 +40,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
     audiod \
     audio.a2dp.default \
+    audio_policy.msm8226 \
     audio.primary.msm8226 \
     audio.r_submix.default \
     audio.usb.default
@@ -112,7 +113,10 @@ PRODUCT_COPY_FILES += \
 
 # OMX
 PRODUCT_PACKAGES += \
+    libc2dcolorconvert \
     libdashplayer \
+    libdivxdrmdecrypt \
+    libmm-omxcore\
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
