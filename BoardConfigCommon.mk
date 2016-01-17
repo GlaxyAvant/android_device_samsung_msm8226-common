@@ -15,13 +15,18 @@
 # Inherit from qcom-common
 -include device/samsung/qcom-common/BoardConfigCommon.mk
 
-LOCAL_PATH := device/samsung/msm8226-common
+VENDOR_PATH := device/samsung/msm8226-common
 
-TARGET_SPECIFIC_HEADER_PATH := device/samsung/msm8226-common/include
+TARGET_SPECIFIC_HEADER_PATH := $(VENDOR_PATH)/include
 
 # Architecture
 TARGET_CPU_MEMCPY_BASE_OPT_DISABLE := true
 TARGET_CPU_VARIANT := krait
+
+# Audio
+AUDIO_FEATURE_ENABLED_LOW_LATENCY_CAPTURE := true
+BOARD_USES_ALSA_AUDIO := true
+TARGET_QCOM_AUDIO_VARIANT := caf
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -32,7 +37,6 @@ BLUETOOTH_HCI_USE_MCT := true
 TARGET_BOOTLOADER_BOARD_NAME := MSM8226
 
 # Camera
-BOARD_USES_LEGACY_MMAP := true
 TARGET_PROVIDES_CAMERA_HAL := true
 USE_DEVICE_SPECIFIC_CAMERA := true
 
@@ -43,20 +47,16 @@ BOARD_CHARGING_CMDLINE_VALUE := "charger"
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
 
-# Lights
-TARGET_PROVIDES_LIBLIGHT := true
-
 # CMHW
-BOARD_HARDWARE_CLASS += device/samsung/msm8226-common/cmhw
+BOARD_HARDWARE_CLASS += $(VENDOR_PATH)/cmhw
 
 # Custom RIL class
-BOARD_RIL_CLASS := ../../../device/samsung/msm8226-common/ril
+BOARD_RIL_CLASS := ../../../$(VENDOR_PATH)/ril
 
 # Display
-#BOARD_EGL_CFG := device/samsung/msm8226-common/configs/egl.cfg
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 TARGET_QCOM_DISPLAY_VARIANT := caf
-TARGET_NO_INITLOGO := true
 
 # Shader cache config options
 # Maximum size of the  GLES Shaders that can be cached for reuse.
@@ -75,11 +75,14 @@ TARGET_QCOM_NO_FM_FIRMWARE := true
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
 
+# GPS
+TARGET_GPS_HAL_PATH := $(VENDOR_PATH)/gps
+
 # Init
 TARGET_INIT_VENDOR_LIB := libinit_msm
 
-# Memory
-MALLOC_IMPL := dlmalloc
+# Kernel
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 
 # Partitions and Vold
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
@@ -90,18 +93,12 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/
 TARGET_BOARD_PLATFORM := msm8226
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno305
 
-# Power
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(LOCAL_PATH)/power/power_ext.c
-TARGET_POWERHAL_VARIANT := qcom
+# Properties (reset them here, include more in device if needed)
+TARGET_SYSTEM_PROP := $(VENDOR_PATH)/system.prop
 
 # SELinux
 -include device/qcom/sepolicy/sepolicy.mk
-BOARD_SEPOLICY_DIRS += device/samsung/msm8226-common/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-       hostapd.te \
-       platform_app.te \
-       kernel.te
+BOARD_SEPOLICY_DIRS += $(VENDOR_PATH)/sepolicy
 
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true
@@ -117,12 +114,3 @@ TARGET_USES_WCNSS_CTRL           := true
 WPA_SUPPLICANT_VERSION           := VER_0_8_X
 WIFI_DRIVER_FW_PATH_STA          := "sta"
 WIFI_DRIVER_FW_PATH_AP           := "ap"
-WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/wlan.ko"
-WIFI_DRIVER_MODULE_NAME          := "wlan"
-
-WLAN_MODULES:
-	mkdir -p $(KERNEL_MODULES_OUT)/pronto
-	mv $(KERNEL_MODULES_OUT)/wlan.ko $(KERNEL_MODULES_OUT)/pronto/pronto_wlan.ko
-	ln -sf /system/lib/modules/pronto/pronto_wlan.ko $(TARGET_OUT)/lib/modules/wlan.ko
-
-TARGET_KERNEL_MODULES += WLAN_MODULES
