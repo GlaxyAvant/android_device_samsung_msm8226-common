@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014 The CyanogenMod Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); \
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -15,9 +15,9 @@
  */
 
 #define CAMERA_PARAMETERS_EXTRA_C \
+const char CameraParameters::KEY_SUPPORTED_ISO_MODES[] = "iso-values"; \
 const char CameraParameters::KEY_DIS[] = "dis"; \
 const char CameraParameters::DIS_DISABLE[] = "disable"; \
-const char CameraParameters::KEY_SUPPORTED_ISO_MODES[] = "iso-values"; \
 const char CameraParameters::KEY_FACE_DETECTION[] = "face-detection"; \
 const char CameraParameters::KEY_SUPPORTED_FACE_DETECTION[] = "face-detection-values"; \
 const char CameraParameters::FACE_DETECTION_OFF[] = "off"; \
@@ -108,18 +108,27 @@ const char CameraParameters::PIXEL_FORMAT_YUV420SP_ADRENO[] = "yuv420sp-adreno";
 const char CameraParameters::PIXEL_FORMAT_RAW[] = "raw"; \
 const char CameraParameters::PIXEL_FORMAT_YV12[] = "yuv420p"; \
 const char CameraParameters::PIXEL_FORMAT_NV12[] = "nv12"; \
+const char CameraParameters::EFFECT_CARTOONIZE[] = "cartoonize"; \
+const char CameraParameters::EFFECT_POINT_RED_YELLOW[] = "point-red-yellow"; \
+const char CameraParameters::EFFECT_POINT_GREEN[] = "point-green"; \
+const char CameraParameters::EFFECT_POINT_BLUE[] = "point-blue"; \
+const char CameraParameters::EFFECT_VINTAGE_COLD[] = "vintage-cold"; \
+const char CameraParameters::EFFECT_VINTAGE_WARM[] = "vintage-warm"; \
+const char CameraParameters::EFFECT_WASHED[] = "washed"; \
+const char CameraParameters::SCENE_MODE_BACKLIGHT[] = "backlight"; \
+const char CameraParameters::SCENE_MODE_ASD[] = "asd"; \
 int CameraParameters::getInt64(const char *key) const { return -1; }; \
 const char *CameraParameters::getPreviewFrameRateMode() const { return get(KEY_PREVIEW_FRAME_RATE_MODE); }; \
 void CameraParameters::setPreviewFrameRateMode(const char *mode) { set(KEY_PREVIEW_FRAME_RATE_MODE, mode); }; \
 void CameraParameters::getMeteringAreaCenter(int *x, int *y) const { }; \
 void CameraParameters::setTouchIndexAec(int x, int y) { }; \
 void CameraParameters::setTouchIndexAf(int x, int y) { }; \
-void CameraParameters::setPreviewFpsRange(int minFPS, int maxFPS) { }
+void CameraParameters::setPreviewFpsRange(int minFPS, int maxFPS) { };
 
 #define CAMERA_PARAMETERS_EXTRA_H \
+    static const char KEY_SUPPORTED_ISO_MODES[]; \
     static const char KEY_DIS[]; \
     static const char DIS_DISABLE[]; \
-    static const char KEY_SUPPORTED_ISO_MODES[]; \
     static const char KEY_FACE_DETECTION[]; \
     static const char KEY_SUPPORTED_FACE_DETECTION[]; \
     static const char FACE_DETECTION_OFF[]; \
@@ -210,6 +219,15 @@ void CameraParameters::setPreviewFpsRange(int minFPS, int maxFPS) { }
     static const char PIXEL_FORMAT_RAW[]; \
     static const char PIXEL_FORMAT_YV12[]; \
     static const char PIXEL_FORMAT_NV12[]; \
+    static const char EFFECT_CARTOONIZE[]; \
+    static const char EFFECT_POINT_RED_YELLOW[]; \
+    static const char EFFECT_POINT_GREEN[]; \
+    static const char EFFECT_POINT_BLUE[]; \
+    static const char EFFECT_VINTAGE_COLD[]; \
+    static const char EFFECT_VINTAGE_WARM[]; \
+    static const char EFFECT_WASHED[]; \
+    static const char SCENE_MODE_BACKLIGHT[]; \
+    static const char SCENE_MODE_ASD[]; \
     int getInt64(const char *key) const; \
     const char *getPreviewFrameRateMode() const; \
     void setPreviewFrameRateMode(const char *mode); \
@@ -217,3 +235,4 @@ void CameraParameters::setPreviewFpsRange(int minFPS, int maxFPS) { }
     void setTouchIndexAec(int x, int y); \
     void setTouchIndexAf(int x, int y); \
     void setPreviewFpsRange(int minFPS, int maxFPS);
+

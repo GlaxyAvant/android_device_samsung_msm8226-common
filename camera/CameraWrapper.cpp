@@ -26,15 +26,12 @@
 #define LOG_TAG "CameraWrapper"
 #include <cutils/log.h>
 
-#include <string.h>
 #include <utils/threads.h>
 #include <utils/String8.h>
 #include <hardware/hardware.h>
 #include <hardware/camera.h>
 #include <camera/Camera.h>
-#include <camera/CameraParameters.h>
 #include <camera/CameraParameters2.h>
-#include <camera/CameraParametersExtra.h>
 
 static android::Mutex gCameraWrapperLock;
 static camera_module_t *gVendorModule = 0;
@@ -52,27 +49,27 @@ static struct hw_module_methods_t camera_module_methods = {
     .open = camera_device_open
 };
 
-extern "C" {
-    camera_module_t HAL_MODULE_INFO_SYM = {
-        common: {
-             tag: HARDWARE_MODULE_TAG,
-             module_api_version : CAMERA_MODULE_API_VERSION_1_0,
-             hal_api_version : HARDWARE_HAL_API_VERSION,
-             id: CAMERA_HARDWARE_MODULE_ID,
-             name: "Samsung MSM8226 Camera Wrapper",
-             author: "The CyanogenMod Project",
-             methods: &camera_module_methods,
-             dso: NULL,
-             reserved: {0},
-        },
-        get_number_of_cameras: camera_get_number_of_cameras,
-        get_camera_info: camera_get_camera_info,
-        set_callbacks: NULL,
-        get_vendor_tag_ops: NULL,
-        open_legacy: NULL,
-        /*reserved: {0},*/
-    };
-}
+camera_module_t HAL_MODULE_INFO_SYM = {
+    .common = {
+         .tag = HARDWARE_MODULE_TAG,
+         .module_api_version = CAMERA_MODULE_API_VERSION_1_0,
+         .hal_api_version = HARDWARE_HAL_API_VERSION,
+         .id = CAMERA_HARDWARE_MODULE_ID,
+         .name = "Samsung MSM8226 Camera Wrapper",
+         .author = "The CyanogenMod Project",
+         .methods = &camera_module_methods,
+         .dso = NULL, /* remove compilation warnings */
+         .reserved = {0}, /* remove compilation warnings */
+    },
+    .get_number_of_cameras = camera_get_number_of_cameras,
+    .get_camera_info = camera_get_camera_info,
+    .set_callbacks = NULL, /* remove compilation warnings */
+    .get_vendor_tag_ops = NULL, /* remove compilation warnings */
+    .open_legacy = NULL, /* remove compilation warnings */
+    .set_torch_mode = NULL, /* remove compilation warnings */
+    .init = NULL, /* remove compilation warnings */
+    .reserved = {0}, /* remove compilation warnings */
+};
 
 typedef struct wrapper_camera_device {
     camera_device_t base;
